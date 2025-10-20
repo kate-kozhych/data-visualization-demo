@@ -3,10 +3,26 @@ import { useState, useEffect } from 'react';
 import './App.css'
 
 function App() {
-  const { categories, questions, loading } = useData();
+  const { categories, 
+    questions: filteredQuestions,
+    allQuestions,                     
+    loading,              // true/false
+    error,
+    selectedCategory,     // ID or null
+    filterByCategory, // function to filtrate
+    categoryDistribution,    
+    difficultyDistribution   } = useData();
 
   if (loading) {
     return <div>Loading...</div>;
+  }
+  if (error) { 
+    return (
+      <div style={{ color: 'red' }}>
+        <h2>Error</h2>
+        <p>{error}</p>
+      </div>
+    );
   }
 
   return (
@@ -20,8 +36,8 @@ function App() {
         ))}
       </ul>
 
-      <h2>Questions ({questions.length})</h2>
-      <pre>{JSON.stringify(questions[0], null, 2)}</pre>
+      <h2>Questions ({allQuestions.length})</h2>
+      <pre>{JSON.stringify(allQuestions[0], null, 2)}</pre>
     </div>
   );
 }

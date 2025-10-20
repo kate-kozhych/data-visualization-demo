@@ -1,46 +1,102 @@
 import { fetchCategories, fetchQuestions } from '../services/triviaApi';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const globalCache = {
+    categories: null,
+    questions: null
+};
 
 export const useData = () => {
     const [categories, setCategories] = useState([]);
-    const [questions, setQuestions] = useState([]);
+    const [allQuestions, setAllQuestions] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null); //null=all categories to filter by selected category
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const loadData = async () => {
         setLoading(true);
+        setError(null);
+        try{    
+            let ctgrs = globalCache.categories;
+            if (!ctgrs) {
+                ctgrs = await fetchCategories();
+                globalCache.categories = ctgrs;
+            }
+            setCategories(ctgrs);
+            await delay(5000);
 
-        const ctgrs = await fetchCategories();
-        setCategories(ctgrs);
-        await delay(5000);
-
-        const qstns = await fetchQuestions(50);
-        setQuestions(qstns);
-
-        setLoading(false);
+            let qstns = globalCache.questions;
+            if (!qstns) {
+                qstns = await fetchQuestions(50);
+                globalCache.questions = qstns;
+                }
+                setAllQuestions(qstns);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                setError(error.message || 'Failed to load data');
+            } finally {
+                    setLoading(false);
+            }
         };
         loadData();
     }, []); //run only one time to fetch the data
 
-    const filterByCategory = async (categoryId) => {
-        setSelectedCategory(categoryId)
-        await delay(5000);
-        if (categoryId === null) { //user chose All Categories 
-        const qstns = await fetchQuestions(50); //so we just fetch all questions
-        setQuestions(qstns);
-        } else {
-        const setFilteredQuestions = await fetchQuestions(50, categoryId);
-        setQuestions(setFilteredQuestions);
+    const filteredQuestions = useMemo(() => { //filter from memory
+        if (selectedCategory === null) {
+            return allQuestions;
         }
+        return allQuestions.filter(q => q.category === selectedCategory);
+    }, [allQuestions, selectedCategory]);
+
+    const categoryDistribution = useMemo(() => { //category distr from memory
+        const distribution = {};
+
+        allQuestions.forEach(q => {
+            const ctgr = q.category;
+            distribution[ctgr] = (distribution[ctgr] || 0) + 1;
+            
+        });;
+        
+        return Object.entries(distribution).map(([name, count]) => ({ //turning into map for the recharts
+            name,
+            count
+        }));
+    }, [allQuestions]);
+
+
+    const difficultyDistribution = useMemo(() => {
+        const distribution = { easy: 0, medium: 0, hard: 0 };
+        
+        const questionsToUse = selectedCategory === null ? allQuestions : filteredQuestions;
+        
+        questionsToUse.forEach(q => {
+            if (q.difficulty in distribution) {
+                distribution[q.difficulty]++;
+            }
+        });
+        
+        return Object.entries(distribution).map(([difficulty, count]) => ({ //turning into map for the recharts
+            difficulty,
+            count
+        }));
+    }, [allQuestions, filteredQuestions, selectedCategory]);
+    
+    const filterByCategory = (categoryName) => { //function to change the filter without api
+        setSelectedCategory(categoryName);
     };
 
+
     return {
-    categories,           
-    questions,            
+    categories, 
+    questions: filteredQuestions,
+    allQuestions,                     
     loading,              // true/false
+    error,
     selectedCategory,     // ID or null
-    filterByCategory      // function to filtrate
+    filterByCategory, // function to filtrate
+    categoryDistribution,    
+    difficultyDistribution  
   };
 };
