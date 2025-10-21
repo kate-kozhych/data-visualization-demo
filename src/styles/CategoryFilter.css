@@ -1,0 +1,56 @@
+.category-filter-container {
+  margin-bottom: var(--spacing-xl);
+}
+
+.category-filter {
+  display: grid;
+  grid-template-rows: repeat(3, auto);
+  grid-auto-flow: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+.category-filter::-webkit-scrollbar {
+  height: 6px;
+}
+
+.category-filter::-webkit-scrollbar-track {
+  background: var(--bg-card);
+  border-radius: 10px;
+}
+
+.category-filter::-webkit-scrollbar-thumb {
+  background: var(--accent-purple);
+  border-radius: 10px;
+}
+
+.filter-btn {
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  font-family: var(--font-primary);
+}
+
+.filter-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-purple);
+  color: var(--text-primary);
+}
+
+.filter-btn.active {
+  background: var(--accent-purple);
+  color: white;
+  border-color: var(--accent-purple);
+}

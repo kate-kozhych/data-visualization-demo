@@ -1,6 +1,10 @@
 import { useData } from './hooks/useData'
 import { useState, useEffect } from 'react';
+import Card from './components/Card';
 import './App.css'
+import CategoryFilter from './components/CategoryFilter';
+import CategoryChart from './components/CategoryChart';
+import DifficultyChart from './components/DifficultyChart';
 
 function App() {
   const { categories, 
@@ -26,18 +30,27 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="app">
       <h1>Trivia Visualization</h1>
-      
-      <h2>Categories ({categories.length})</h2>
-      <ul>
-        {categories.map(ctgrs => (
-          <li key={ctgrs.id}>{ctgrs.name}</li>
-        ))}
-      </ul>
+      <Card className="main-card">
+        <CategoryFilter 
+          categories={categories}
+          selected={selectedCategory}
+          onSelect={filterByCategory}
+        />
+      </Card>
 
-      <h2>Questions ({allQuestions.length})</h2>
-      <pre>{JSON.stringify(allQuestions[0], null, 2)}</pre>
+      <Card title="Questions by Category" className="chart-card">
+        <CategoryChart 
+        data={categoryDistribution}
+        />
+      </Card>
+
+      <Card title="Difficulty by Category" className="chart-card">
+        <DifficultyChart 
+        data={difficultyDistribution}
+        />
+      </Card>
     </div>
   );
 }

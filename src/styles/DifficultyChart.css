@@ -1,0 +1,49 @@
+.difficulty-chart-container {
+  width: 100%;
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.difficulty-chart-container .recharts-wrapper {
+  font-family: var(--font-primary);
+}
+
+.difficulty-chart-container .recharts-legend-item-text {
+  color: var(--text-primary) !important;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.difficulty-chart-container .recharts-pie-label-text {
+  fill: var(--text-primary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.difficulty-chart-container .recharts-legend-wrapper {
+  padding-top: var(--spacing-md);
+}
+
+.difficulty-chart-container .custom-tooltip {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.difficulty-chart-container .tooltip-label {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
+.difficulty-chart-container .tooltip-value {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 12px;
+  margin: 2px 0;
+}
