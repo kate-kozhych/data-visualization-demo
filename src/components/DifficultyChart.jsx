@@ -56,8 +56,8 @@ const DifficultyChart = ({ data }) => {
             data={filteredData}
             cx="50%"
             cy="50%"
-            innerRadius="60%"
-            outerRadius="90%"
+            innerRadius="50%"
+            outerRadius="80%"
             cornerRadius="50%"
             fill="#8884d8"
             paddingAngle={5}

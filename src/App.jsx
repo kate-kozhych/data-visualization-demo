@@ -6,6 +6,35 @@ import CategoryFilter from './components/CategoryFilter';
 import CategoryChart from './components/CategoryChart';
 import DifficultyChart from './components/DifficultyChart';
 
+const LoadingState = () => (
+  <div className="loading-container">
+    <div className="center-state">
+      <div className="spinner"></div>
+      <h2>Loading Trivia Data...</h2>
+      <p>Fetching questions from Open Trivia DB :) This may take some time</p>
+    </div>
+  </div>
+);
+
+const ErrorState = ({ error }) => (
+  <div className="error-container">
+    <div className="center-state">
+      <h2>Oops! Something went wrong</h2>
+      <p style={{ color: 'var(--accent-red)', margin: 'var(--spacing-md) 0' }}>
+        {error}
+      </p>
+      <button 
+        className="retry-button"
+        onClick={() => window.location.reload()}
+      >
+        Try Again
+      </button>
+    </div>
+  </div>
+);
+
+
+
 function App() {
   const { categories, 
     questions: filteredQuestions,
@@ -18,15 +47,10 @@ function App() {
     difficultyDistribution   } = useData();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingState/>;
   }
   if (error) { 
-    return (
-      <div style={{ color: 'red' }}>
-        <h2>Error</h2>
-        <p>{error}</p>
-      </div>
-    );
+    return <ErrorState error={error}/>;
   }
 
   return (

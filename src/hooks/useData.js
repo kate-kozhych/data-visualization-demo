@@ -25,7 +25,6 @@ export const useData = () => {
                 globalCache.categories = ctgrs;
             }
             setCategories(ctgrs);
-            await delay(5000);
 
             let qstns = globalCache.questions;
             if (!qstns) {
@@ -59,30 +58,27 @@ export const useData = () => {
             
         });;
         
-        return Object.entries(distribution).map(([name, count]) => ({ //turning into map for the recharts
-            name,
-            count
-        }));
+        return Object.entries(distribution) //turning into map for the recharts
+        .map(([name, count]) => ({ name, count}))
+        .sort((a, b) => a.count - b.count); //sorting 
     }, [allQuestions]);
 
 
     const difficultyDistribution = useMemo(() => {
         const distribution = { easy: 0, medium: 0, hard: 0 };
         
-        const questionsToUse = selectedCategory === null ? allQuestions : filteredQuestions;
-        
-        questionsToUse.forEach(q => {
+        filteredQuestions.forEach(q => { //using anready filtered data to prevent any mistakes
             if (q.difficulty in distribution) {
                 distribution[q.difficulty]++;
             }
         });
         
-        return Object.entries(distribution).map(([difficulty, count]) => ({ //turning into map for the recharts
+        return Object.entries(distribution).map(([difficulty, count]) => ({ //turning into map for recharts
             difficulty,
             count
         }));
-    }, [allQuestions, filteredQuestions, selectedCategory]);
-    
+    }, [filteredQuestions]);
+        
     const filterByCategory = (categoryName) => { //function to change the filter without api
         setSelectedCategory(categoryName);
     };

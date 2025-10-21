@@ -1,6 +1,6 @@
 .difficulty-chart-container {
   width: 100%;
-  padding: var(--spacing-md);
+  padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
   display: flex;
   justify-content: center;
   align-items: center;

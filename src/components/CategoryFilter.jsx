@@ -2,7 +2,7 @@ import { useState } from 'react';
 import '../styles/CategoryFilter.css';
 
 const CategoryFilter = ({ categories, selected, onSelect }) => {
-    return(    
+  return(    
     <div className="category-filter-container">
       <h2>Filter by Category</h2>
       <div className="category-filter">
