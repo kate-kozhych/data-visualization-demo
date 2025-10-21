@@ -15,13 +15,22 @@ export const useData = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        let isMounted = true;    //to prevent error 429 we will be using flags
         const loadData = async () => {
+        if (globalCache.categories && globalCache.questions) {
+            setCategories(globalCache.categories);
+            setAllQuestions(globalCache.questions);
+            setLoading(false);
+            return; 
+        }
+
         setLoading(true);
         setError(null);
         try{    
             let ctgrs = globalCache.categories;
             if (!ctgrs) {
                 ctgrs = await fetchCategories();
+                if (!isMounted) return;
                 globalCache.categories = ctgrs;
             }
             setCategories(ctgrs);
@@ -29,17 +38,24 @@ export const useData = () => {
             let qstns = globalCache.questions;
             if (!qstns) {
                 qstns = await fetchQuestions(50);
+                if (!isMounted) return;
                 globalCache.questions = qstns;
                 }
                 setAllQuestions(qstns);
             } catch (error) {
+                if (!isMounted) return;
                 console.error('Error loading data:', error);
                 setError(error.message || 'Failed to load data');
             } finally {
+                if (isMounted) {
                     setLoading(false);
+                }
             }
         };
         loadData();
+        return () => {
+        isMounted = false;
+    };
     }, []); //run only one time to fetch the data
 
     const filteredQuestions = useMemo(() => { //filter from memory
