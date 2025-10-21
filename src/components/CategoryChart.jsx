@@ -26,34 +26,38 @@ const CategoryChart = ({ data }) => {
 
     return (
     <div className="category-chart-container">
-      <ResponsiveContainer width="100%" height={chartHeight}>
-        <BarChart 
-          data={data} 
-          layout="vertical"
-          margin={{ top: 5, right: 30, left: 150, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" stroke="#2d3748" />
-          <XAxis 
-            type="number" 
-            stroke="#94a3b8"
-            style={{ fontSize: '12px' }}
-          />
-          <YAxis 
-            type="category" 
-            dataKey="name" 
-            stroke="#94a3b8"
-            style={{ fontSize: '12px' }}
-            width={140}
-            tickFormatter={decodeHTML}
-          />
-          <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey="count" radius={[0, 8, 8, 0]}>
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+      <div style={{ overflowX: 'auto', width: '100%' }}>
+        <div style={{ minWidth: 'max(100%, 600px)' }}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
+            <BarChart 
+              data={data} 
+              layout="vertical"
+              margin={{ top: 5, right: 30, left: 150, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#2d3748" />
+              <XAxis 
+                type="number" 
+                stroke="#94a3b8"
+                style={{ fontSize: '12px' }}
+              />
+              <YAxis 
+                type="category" 
+                dataKey="name" 
+                stroke="#94a3b8"
+                style={{ fontSize: '12px' }}
+                width={140}
+                tickFormatter={decodeHTML}
+              />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="count" radius={[0, 8, 8, 0]}>
+                {data.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 };

@@ -35,3 +35,23 @@
   font-weight: 500;
   font-size: 12px;
 }
+
+.category-chart-container > div:first-child {
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-chart-container > div:first-child::-webkit-scrollbar {
+  height: 6px;
+}
+
+.category-chart-container > div:first-child::-webkit-scrollbar-track {
+  background: var(--bg-card);
+  border-radius: 10px;
+}
+
+.category-chart-container > div:first-child::-webkit-scrollbar-thumb {
+  background: var(--accent-purple);
+  border-radius: 10px;
+}

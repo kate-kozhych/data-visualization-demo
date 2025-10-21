@@ -64,15 +64,15 @@ function App() {
         />
       </Card>
 
-      <Card title="Questions by Category" className="chart-card">
-        <CategoryChart 
-        data={categoryDistribution}
-        />
-      </Card>
-
       <Card title="Difficulty by Category" className="chart-card">
         <DifficultyChart 
         data={difficultyDistribution}
+        />
+      </Card>
+
+      <Card title="Questions by Category" className="chart-card">
+        <CategoryChart 
+        data={categoryDistribution}
         />
       </Card>
     </div>
