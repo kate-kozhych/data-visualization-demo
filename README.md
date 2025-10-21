@@ -21,7 +21,7 @@ npm run dev
 
 ## Live Demo
 
-[View Demo](https://kate-koyhzch.github.io/data-visualization-demo)
+[View Demo](https://kate-kozhych.github.io/data-visualization-demo)
 
 ## License
 
